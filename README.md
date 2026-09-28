@@ -18,12 +18,14 @@ As contas Acenup e Lucas Leati ficam fora.
 
 ## Adoção (uma vez)
 
+Feita em 2026-09-28: 113 recursos importados, `plan` sem mudança. Os passos ficam para
+refazer do zero (conta nova, estado perdido).
+
 1. Criar o token da API e gravar em `.env`: passo a passo em [docs/token-da-api.md](docs/token-da-api.md).
 2. `scripts/exportar.sh` — baixa `terraform` e `cf-terraforming` em `.bin/`, gera os `.tf` e o `imports.tf`.
-3. `.bin/terraform plan` — o esperado é só `import`, com três `change` cosméticos conhecidos
-   (os dois catch-all de e-mail perdem `name = ""` e a App Launcher ganha o título padrão).
-   Outro `change` ou qualquer `destroy` é diferença de schema do gerador: corrigir em
-   `scripts/corrigir.py`, não à mão no `.tf`, para a exportação continuar reproduzível.
+3. `.bin/terraform plan` — o esperado é só `import`. Um `change` ou `destroy` é diferença de
+   schema do gerador: corrigir em `scripts/corrigir.py`, não à mão no `.tf`, para a exportação
+   continuar reproduzível.
 4. `.bin/terraform apply`, depois apagar `imports.tf`.
 5. Renomear os recursos `terraform_managed_resource_<id>` para nomes legíveis com blocos `moved`.
 
