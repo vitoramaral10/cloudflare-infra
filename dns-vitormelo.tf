@@ -199,7 +199,7 @@ resource "cloudflare_dns_record" "terraform_managed_resource_0e044639ef8399f95d8
 }
 
 resource "cloudflare_dns_record" "terraform_managed_resource_9f9a033b5020b15e90b7645a81bef324_16" {
-  content = "79dfd3e9-3de9-444e-bde6-b5e77c6d5695.cfargotunnel.com"
+  content = "9ed70697-1fae-4486-85a0-bd95129c7030.cfargotunnel.com"
   name    = "jobhunt.vitormelo.dev.br"
   proxied = true
   tags    = []
