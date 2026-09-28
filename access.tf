@@ -10,27 +10,6 @@ resource "cloudflare_zero_trust_access_policy" "terraform_managed_resource_811f0
   }]
 }
 
-resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_5a77be82-014f-4eaa-b3f1-e661d75d0b8d_0" {
-  account_id                 = "6d8854bed30741da26ea83513b2b8b2f"
-  app_launcher_visible       = true
-  auto_redirect_to_identity  = false
-  domain                     = "acenup-painel.vitormelo.dev.br"
-  enable_binding_cookie      = false
-  http_only_cookie_attribute = true
-  name                       = "acenup-painel"
-  options_preflight_bypass   = false
-  session_duration           = "720h"
-  type                       = "self_hosted"
-  destinations = [{
-    type = "public"
-    uri  = "acenup-painel.vitormelo.dev.br"
-  }]
-  policies = [{
-    id         = "48dad875-322d-4112-83cd-0c33c13c1773"
-    precedence = 1
-  }]
-}
-
 resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_319fa8a1-2e56-418e-b514-55957d63a5da_1" {
   account_id                 = "6d8854bed30741da26ea83513b2b8b2f"
   app_launcher_visible       = true

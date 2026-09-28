@@ -1,17 +1,3 @@
-resource "cloudflare_dns_record" "terraform_managed_resource_4dc86f59ad0b2733334278877b2a023a_0" {
-  comment = "painel da análise Acenup (acenup-painel)"
-  content = "9ed70697-1fae-4486-85a0-bd95129c7030.cfargotunnel.com"
-  name    = "acenup-painel.vitormelo.dev.br"
-  proxied = true
-  tags    = []
-  ttl     = 1
-  type    = "CNAME"
-  zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
-  settings = {
-    flatten_cname = false
-  }
-}
-
 resource "cloudflare_dns_record" "terraform_managed_resource_d56e399a020086e80db5dd651760a45a_1" {
   comment = "acervo-hub (interface + Torznab), atrás do Access"
   content = "9ed70697-1fae-4486-85a0-bd95129c7030.cfargotunnel.com"
