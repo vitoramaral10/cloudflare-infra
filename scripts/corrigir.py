@@ -12,6 +12,8 @@ Por tipo de recurso:
   `warp-routing` (fora do schema da v5) sai
 - email_routing_rule com matcher `all`: sai — o catch-all é o recurso
   cloudflare_email_routing_catch_all
+- email_routing_catch_all: a API sempre devolve `name = ""`; sem declarar,
+  todo plan quer trocar por nulo
 - email_routing_address: só campos calculados mudam; `ignore_changes = all`
 - access_policy: `exclude = []` e `require = []` saem (no estado são nulos)
 - ruleset: só as fases com regra nossa; `ddos_l7` e `http_request_sanitize`
@@ -84,7 +86,11 @@ def policies_por_id(b):
                 if n:
                     out.append("  }, {")
                 ident = valor(e, "id", 4)
-                out.append(f"    id         = {policies.get(ident, chr(34) + ident + chr(34))}")
+                if ident.startswith("cloudflare_"):  # já corrigido numa rodada anterior
+                    ref = ident
+                else:
+                    ref = policies.get(ident, f'"{ident}"')
+                out.append(f"    id         = {ref}")
                 out.append(f"    precedence = {valor(e, 'precedence', 4)}")
             out.append("  }]")
         else:
@@ -132,6 +138,9 @@ def corrige(b):
         return []
     if t == "cloudflare_email_routing_rule" and any(re.match(r'^\s+type\s*=\s*"all"', l) for l in b):
         return []
+    if t == "cloudflare_email_routing_catch_all" and valor(b, "name", 2) is None:
+        b.insert(b.index(cabecalho(b)) + 1, '  name = ""')
+        return b
     if t == "cloudflare_email_routing_address" and not any("lifecycle" in l for l in b):
         return b[:-1] + ["", "  lifecycle {", "    ignore_changes = all", "  }", "}"]
     return b

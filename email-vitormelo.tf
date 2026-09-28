@@ -50,6 +50,7 @@ resource "cloudflare_email_routing_rule" "terraform_managed_resource_3af087900d1
 }
 
 resource "cloudflare_email_routing_catch_all" "terraform_managed_resource_a4af2f7380a24646bb407df9a7c095ca_0" {
+  name    = ""
   enabled = true
   source  = "api"
   zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
