@@ -33,8 +33,10 @@ refazer do zero (conta nova, estado perdido).
 
 - **Mudança na Cloudflare passa por aqui**: editar o `.tf`, `plan`, `apply`. Mexer no painel cria
   diferença que o próximo `plan` desfaz.
-- Hostname novo no túnel: a regra de ingress entra antes do `http_status:404`, aponta para nome de
-  serviço ou alias (nunca nome de container), e o CNAME proxied leva `comment` dizendo o stack.
+- Hostname novo no túnel: a regra entra **no grupo comentado dela** em `tuneis.tf` (identidade,
+  serviços, IA, bancos, mídia, projetos, hexpedal), nunca solta no fim; o `http_status:404` fica
+  sempre por último. Aponta para nome de serviço ou alias (nunca nome de container), sem
+  `origin_request` vazio, e o CNAME proxied leva `comment` dizendo o stack.
 - Painel com login próprio não precisa de Access. Painel sem login ganha app do Access com a
   policy `login` **antes** da regra do túnel.
 - O `terraform.tfstate` guarda o segredo dos túneis: fica fora do git. Faça backup dele junto
