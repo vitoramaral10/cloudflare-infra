@@ -18,10 +18,12 @@ As contas Acenup e Lucas Leati ficam fora.
 
 ## Adoção (uma vez)
 
-1. Criar um **Account API Token** com as permissões listadas no `.env.example` e gravar em `.env`.
+1. Criar o token da API e gravar em `.env`: passo a passo em [docs/token-da-api.md](docs/token-da-api.md).
 2. `scripts/exportar.sh` — baixa `terraform` e `cf-terraforming` em `.bin/`, gera os `.tf` e o `imports.tf`.
-3. `.bin/terraform plan` — o esperado é só `import`. Qualquer `change` ou `destroy` é diferença
-   de schema do gerador: corrigir o `.tf` até o plano ficar limpo.
+3. `.bin/terraform plan` — o esperado é só `import`, com três `change` cosméticos conhecidos
+   (os dois catch-all de e-mail perdem `name = ""` e a App Launcher ganha o título padrão).
+   Outro `change` ou qualquer `destroy` é diferença de schema do gerador: corrigir em
+   `scripts/corrigir.py`, não à mão no `.tf`, para a exportação continuar reproduzível.
 4. `.bin/terraform apply`, depois apagar `imports.tf`.
 5. Renomear os recursos `terraform_managed_resource_<id>` para nomes legíveis com blocos `moved`.
 
