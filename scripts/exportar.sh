@@ -34,42 +34,38 @@ if [[ ! -x "$BIN/cf-terraforming" ]]; then
   GOBIN="$BIN" go install github.com/cloudflare/cf-terraforming/cmd/cf-terraforming@latest
 fi
 
+# recomeça os arquivos gerados; o que foi escrito à mão não passa por aqui
+rm -f tuneis.tf access.tf workers.tf r2.tf email.tf dns-*.tf waf-*.tf zona-*.tf email-*.tf
+rm -f imports.tf
+
 terraform init -input=false >/dev/null
 
 CFT=(--terraform-binary-path "$BIN/terraform")
-: > imports.tf
+LOG=.bin/exportar.log
+# os imports só viram .tf no fim: o cf-terraforming lê o diretório a cada
+# chamada, e um imports.tf pela metade quebraria as seguintes
+PARCIAL=.bin/imports.parcial
+: > "$LOG"; : > "$PARCIAL"
 
-# gera o HCL de um tipo e acrescenta os imports.
-# $1 arquivo .tf  $2 --zone|--account  $3 id  $4 tipo  $5 (opcional) --resource-id
-# Tipos que o `cf-terraforming import` ainda não cobre ganham import montado
-# a partir do nome gerado (terraform_managed_resource_<id>).
+# gera o HCL de um tipo e acrescenta os imports (montados por importar.py).
+# $1 arquivo .tf  $2 --zone|--account  $3 id  $4 tipo  $5 --resource-id (opcional)
+# $6 prefixo para renomear os recursos (opcional)
 gerar() {
-  local arquivo=$1 flag=$2 alvo=$3 tipo=$4 rid=${5:-}
+  local arquivo=$1 flag=$2 alvo=$3 tipo=$4 rid=${5:-} prefixo=${6:-}
   local extra=(); [[ -n $rid ]] && extra=(--resource-id "$tipo=$rid")
   echo "  $tipo ($arquivo)"
-  cf-terraforming generate "$flag" "$alvo" --resource-type "$tipo" "${extra[@]}" "${CFT[@]}" >> "$arquivo"
+  cf-terraforming generate "$flag" "$alvo" --resource-type "$tipo" "${extra[@]}" "${CFT[@]}" >> "$arquivo" 2>>"$LOG"
   case $tipo in
-    cloudflare_zero_trust_tunnel_cloudflared|cloudflare_zero_trust_tunnel_cloudflared_config|cloudflare_zero_trust_access_policy)
-      grep -oP "resource \"$tipo\" \"\K[^\"]+" "$arquivo" | while read -r nome; do
-        printf 'import {\n  to = %s.%s\n  id = "%s/%s"\n}\n\n' "$tipo" "$nome" "$CONTA" "${nome#terraform_managed_resource_}"
-      done >> imports.tf ;;
-    cloudflare_zero_trust_access_identity_provider)
-      grep -oP "resource \"$tipo\" \"\K[^\"]+" "$arquivo" | while read -r nome; do
-        printf 'import {\n  to = %s.%s\n  id = "accounts/%s/%s"\n}\n\n' "$tipo" "$nome" "$CONTA" "${nome#terraform_managed_resource_}"
-      done >> imports.tf ;;
-    cloudflare_zone_setting)
-      grep -oP "resource \"$tipo\" \"\K[^\"]+" "$arquivo" | while read -r nome; do
-        # o nome termina no id do ajuste; o import quer <zona>/<ajuste>
-        local ajuste; ajuste=$(grep -A3 "\"$nome\"" "$arquivo" | grep -oP 'setting_id\s*=\s*"\K[^"]+')
-        printf 'import {\n  to = %s.%s\n  id = "%s/%s"\n}\n\n' "$tipo" "$nome" "$alvo" "$ajuste"
-      done >> imports.tf ;;
+    # sem suporte no `cf-terraforming import`: o id sai do próprio bloco
+    cloudflare_zero_trust_tunnel_cloudflared|cloudflare_zero_trust_tunnel_cloudflared_config|\
+    cloudflare_zero_trust_access_policy|cloudflare_zero_trust_access_identity_provider|\
+    cloudflare_zone_setting|cloudflare_ruleset|cloudflare_email_routing_catch_all)
+      scripts/importar.py "$arquivo" "$tipo" "$CONTA" $prefixo < /dev/null ;;
     *)
-      cf-terraforming import "$flag" "$alvo" --resource-type "$tipo" --modern-import-block "${extra[@]}" >> imports.tf ;;
-  esac
+      cf-terraforming import "$flag" "$alvo" --resource-type "$tipo" --modern-import-block "${extra[@]}" "${CFT[@]}" 2>>"$LOG" |
+        scripts/importar.py "$arquivo" "$tipo" "$CONTA" ;;
+  esac >> "$PARCIAL"
 }
-
-# recomeça os arquivos gerados; o que foi escrito à mão não passa por aqui
-rm -f tuneis.tf access.tf workers.tf r2.tf email.tf dns-*.tf waf-*.tf zona-*.tf email-*.tf
 
 echo "conta"
 gerar tuneis.tf  --account "$CONTA" cloudflare_zero_trust_tunnel_cloudflared
@@ -87,9 +83,20 @@ for nome in "${!ZONAS[@]}"; do
   gerar "dns-$nome.tf"   --zone "$zona" cloudflare_dns_record
   gerar "waf-$nome.tf"   --zone "$zona" cloudflare_ruleset
   gerar "email-$nome.tf" --zone "$zona" cloudflare_email_routing_rule
-  gerar "zona-$nome.tf"  --zone "$zona" cloudflare_zone_setting "$AJUSTES"
+  gerar "email-$nome.tf" --zone "$zona" cloudflare_email_routing_catch_all
+  gerar "zona-$nome.tf"  --zone "$zona" cloudflare_zone_setting "$AJUSTES" "$nome"
 done
 
+mv "$PARCIAL" imports.tf
+
+# o que o gerador produz fora do schema do provider v5 (ver corrigir.py)
+scripts/corrigir.py
+# nomes legíveis no lugar de terraform_managed_resource_<id>_N (ver renomear.py)
+scripts/renomear.py
+# tipo sem recurso na conta (hoje, R2) não vira arquivo vazio
+find . -maxdepth 1 -name "*.tf" -empty -delete
+
 terraform fmt >/dev/null
+terraform validate
 echo
 echo "pronto. próximo passo: terraform plan — o esperado é só 'import', sem change/destroy."

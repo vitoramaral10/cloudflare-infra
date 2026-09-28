@@ -18,19 +18,28 @@ As contas Acenup e Lucas Leati ficam fora.
 
 ## Adoção (uma vez)
 
-1. Criar um **Account API Token** com as permissões listadas no `.env.example` e gravar em `.env`.
+Feita em 2026-09-28: 113 recursos importados, `plan` sem mudança. Os passos ficam para
+refazer do zero (conta nova, estado perdido).
+
+1. Criar o token da API e gravar em `.env`: passo a passo em [docs/token-da-api.md](docs/token-da-api.md).
 2. `scripts/exportar.sh` — baixa `terraform` e `cf-terraforming` em `.bin/`, gera os `.tf` e o `imports.tf`.
-3. `.bin/terraform plan` — o esperado é só `import`. Qualquer `change` ou `destroy` é diferença
-   de schema do gerador: corrigir o `.tf` até o plano ficar limpo.
+3. `.bin/terraform plan` — o esperado é só `import`. Um `change` ou `destroy` é diferença de
+   schema do gerador: corrigir em `scripts/corrigir.py`, não à mão no `.tf`, para a exportação
+   continuar reproduzível.
 4. `.bin/terraform apply`, depois apagar `imports.tf`.
-5. Renomear os recursos `terraform_managed_resource_<id>` para nomes legíveis com blocos `moved`.
+
+Os recursos saem com nome legível (`scripts/renomear.py`): `<zona>_<subdomínio>_<tipo>` no
+DNS, o nome do túnel, `access_<app>`, `worker_<serviço>`, `<zona>_email_<endereço>`. Para
+renomear um estado que já existe, `scripts/renomear.py --moved` grava os blocos `moved`.
 
 ## Regras
 
 - **Mudança na Cloudflare passa por aqui**: editar o `.tf`, `plan`, `apply`. Mexer no painel cria
   diferença que o próximo `plan` desfaz.
-- Hostname novo no túnel: a regra de ingress entra antes do `http_status:404`, aponta para nome de
-  serviço ou alias (nunca nome de container), e o CNAME proxied leva `comment` dizendo o stack.
+- Hostname novo no túnel: a regra entra **no grupo comentado dela** em `tuneis.tf` (identidade,
+  serviços, IA, bancos, mídia, projetos, hexpedal), nunca solta no fim; o `http_status:404` fica
+  sempre por último. Aponta para nome de serviço ou alias (nunca nome de container), sem
+  `origin_request` vazio, e o CNAME proxied leva `comment` dizendo o stack.
 - Painel com login próprio não precisa de Access. Painel sem login ganha app do Access com a
   policy `login` **antes** da regra do túnel.
 - O `terraform.tfstate` guarda o segredo dos túneis: fica fora do git. Faça backup dele junto

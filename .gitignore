@@ -8,3 +8,6 @@ crash.log
 
 .env
 .bin/
+
+# binário que o cf-terraforming baixa se não achar o de .bin/
+/terraform
