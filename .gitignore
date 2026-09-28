@@ -1,0 +1,10 @@
+# estado guarda segredo do túnel e das chaves: nunca no git
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl.bak
+crash.log
+*.tfplan
+
+.env
+.bin/
