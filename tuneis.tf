@@ -139,6 +139,10 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "terraform_managed_re
         service  = "http://nivo-backend:8080"
       },
       {
+        hostname = "portolano.vitormelo.dev.br"
+        service  = "http://portolano-traefik:8000"
+      },
+      {
         hostname = "rentflow.vitormelo.dev.br"
         service  = "http://rentflow:3000"
       },

@@ -211,6 +211,20 @@ resource "cloudflare_dns_record" "terraform_managed_resource_9f9a033b5020b15e90b
   }
 }
 
+resource "cloudflare_dns_record" "portolano" {
+  comment = "Portolano: Traefik da stack portolano"
+  content = "9ed70697-1fae-4486-85a0-bd95129c7030.cfargotunnel.com"
+  name    = "portolano.vitormelo.dev.br"
+  proxied = true
+  tags    = []
+  ttl     = 1
+  type    = "CNAME"
+  zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
+  settings = {
+    flatten_cname = false
+  }
+}
+
 resource "cloudflare_dns_record" "terraform_managed_resource_7a31b7183a8d48624dc0cf7820e19a00_17" {
   content = "9ed70697-1fae-4486-85a0-bd95129c7030.cfargotunnel.com"
   name    = "mealie.vitormelo.dev.br"
