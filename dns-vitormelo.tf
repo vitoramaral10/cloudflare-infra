@@ -741,3 +741,87 @@ resource "cloudflare_dns_record" "vitormelo_raiz_aaaa" {
   settings = {}
 }
 
+
+# Brevo (e-mail transacional do Portolano): autenticação do domínio e links de marca.
+# Criados pela integração automática da Brevo em 2026-09-28 e adotados aqui.
+resource "cloudflare_dns_record" "vitormelo_raiz_txt_4" {
+  comment  = "Brevo: verificação do domínio"
+  content  = "\"brevo-code:97fd39c7396717d00f010451aff66983\""
+  name     = "vitormelo.dev.br"
+  proxied  = false
+  tags     = []
+  ttl      = 3600
+  type     = "TXT"
+  zone_id  = "4b5854dc38bb066f8cb728d78e60ce53"
+  settings = {}
+}
+
+resource "cloudflare_dns_record" "vitormelo_brevo1_domainkey_cname" {
+  comment = "Brevo: DKIM"
+  content = "b1.vitormelo-dev-br.dkim.brevo.com"
+  name    = "brevo1._domainkey.vitormelo.dev.br"
+  proxied = false
+  tags    = []
+  ttl     = 3600
+  type    = "CNAME"
+  zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
+  settings = {
+    flatten_cname = false
+  }
+}
+
+resource "cloudflare_dns_record" "vitormelo_brevo2_domainkey_cname" {
+  comment = "Brevo: DKIM"
+  content = "b2.vitormelo-dev-br.dkim.brevo.com"
+  name    = "brevo2._domainkey.vitormelo.dev.br"
+  proxied = false
+  tags    = []
+  ttl     = 3600
+  type    = "CNAME"
+  zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
+  settings = {
+    flatten_cname = false
+  }
+}
+
+resource "cloudflare_dns_record" "vitormelo_no_reply_cname" {
+  comment = "Brevo: domínio de marca dos links"
+  content = "no-reply-vitormelo-dev-br.brand.brevosend.com"
+  name    = "no-reply.vitormelo.dev.br"
+  proxied = false
+  tags    = []
+  ttl     = 3600
+  type    = "CNAME"
+  zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
+  settings = {
+    flatten_cname = false
+  }
+}
+
+resource "cloudflare_dns_record" "vitormelo_img_no_reply_cname" {
+  comment = "Brevo: domínio de marca das imagens"
+  content = "no-reply-vitormelo-dev-br.img.brand.brevosend.com"
+  name    = "img.no-reply.vitormelo.dev.br"
+  proxied = false
+  tags    = []
+  ttl     = 3600
+  type    = "CNAME"
+  zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
+  settings = {
+    flatten_cname = false
+  }
+}
+
+resource "cloudflare_dns_record" "vitormelo_r_no_reply_cname" {
+  comment = "Brevo: domínio de marca do rastreio"
+  content = "no-reply-vitormelo-dev-br.r.brand.brevosend.com"
+  name    = "r.no-reply.vitormelo.dev.br"
+  proxied = false
+  tags    = []
+  ttl     = 3600
+  type    = "CNAME"
+  zone_id = "4b5854dc38bb066f8cb728d78e60ce53"
+  settings = {
+    flatten_cname = false
+  }
+}
