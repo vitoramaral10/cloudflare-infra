@@ -1,4 +1,4 @@
-resource "cloudflare_email_routing_rule" "terraform_managed_resource_16571d7eff45448fba67eb1044f454b4_0" {
+resource "cloudflare_email_routing_rule" "vitormelo_email_contato_kavro" {
   enabled  = true
   name     = "Rule created at 2026-03-01T23:52:30.682Z"
   priority = 0
@@ -15,7 +15,7 @@ resource "cloudflare_email_routing_rule" "terraform_managed_resource_16571d7eff4
   }]
 }
 
-resource "cloudflare_email_routing_rule" "terraform_managed_resource_b235e6fd341940fc831cd053df8e43e0_1" {
+resource "cloudflare_email_routing_rule" "vitormelo_email_isis" {
   enabled  = true
   name     = "Rule created at 2025-01-05T20:50:17.018Z"
   priority = 0
@@ -32,7 +32,7 @@ resource "cloudflare_email_routing_rule" "terraform_managed_resource_b235e6fd341
   }]
 }
 
-resource "cloudflare_email_routing_rule" "terraform_managed_resource_3af087900d1a45c39cabd8af16e89b23_2" {
+resource "cloudflare_email_routing_rule" "vitormelo_email_contato" {
   enabled  = true
   name     = "Rule created at 2024-09-18T18:48:28.113Z"
   priority = 0
@@ -49,7 +49,7 @@ resource "cloudflare_email_routing_rule" "terraform_managed_resource_3af087900d1
   }]
 }
 
-resource "cloudflare_email_routing_catch_all" "terraform_managed_resource_a4af2f7380a24646bb407df9a7c095ca_0" {
+resource "cloudflare_email_routing_catch_all" "vitormelo_email_catch_all" {
   name    = ""
   enabled = true
   source  = "api"

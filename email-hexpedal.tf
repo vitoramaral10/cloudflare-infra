@@ -1,4 +1,4 @@
-resource "cloudflare_email_routing_catch_all" "terraform_managed_resource_a2994e31c5434449a6d892017de23763_0" {
+resource "cloudflare_email_routing_catch_all" "hexpedal_email_catch_all" {
   name    = ""
   enabled = false
   source  = "api"

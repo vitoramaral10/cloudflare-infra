@@ -1,16 +1,16 @@
-resource "cloudflare_zero_trust_tunnel_cloudflared" "terraform_managed_resource_79dfd3e9-3de9-444e-bde6-b5e77c6d5695_0" {
+resource "cloudflare_zero_trust_tunnel_cloudflared" "homelab_baremetal" {
   account_id = "6d8854bed30741da26ea83513b2b8b2f"
   config_src = "cloudflare"
   name       = "homelab_baremetal"
 }
 
-resource "cloudflare_zero_trust_tunnel_cloudflared" "terraform_managed_resource_9ed70697-1fae-4486-85a0-bd95129c7030_1" {
+resource "cloudflare_zero_trust_tunnel_cloudflared" "homelab_docker" {
   account_id = "6d8854bed30741da26ea83513b2b8b2f"
   config_src = "cloudflare"
   name       = "homelab_docker"
 }
 
-resource "cloudflare_zero_trust_tunnel_cloudflared_config" "terraform_managed_resource_6d8854bed30741da26ea83513b2b8b2f_0" {
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "homelab_docker" {
   account_id = "6d8854bed30741da26ea83513b2b8b2f"
   source     = "cloudflare"
   tunnel_id  = "9ed70697-1fae-4486-85a0-bd95129c7030"
@@ -184,7 +184,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "terraform_managed_re
   }
 }
 
-resource "cloudflare_zero_trust_tunnel_cloudflared_config" "terraform_managed_resource_6d8854bed30741da26ea83513b2b8b2f_1" {
+resource "cloudflare_zero_trust_tunnel_cloudflared_config" "homelab_baremetal" {
   account_id = "6d8854bed30741da26ea83513b2b8b2f"
   source     = "cloudflare"
   tunnel_id  = "79dfd3e9-3de9-444e-bde6-b5e77c6d5695"

@@ -1,4 +1,4 @@
-resource "cloudflare_zero_trust_access_policy" "terraform_managed_resource_811f0681-a998-4a0a-8917-34e23de9bf7a_0" {
+resource "cloudflare_zero_trust_access_policy" "policy_login" {
   account_id       = "6d8854bed30741da26ea83513b2b8b2f"
   decision         = "allow"
   name             = "login"
@@ -10,7 +10,7 @@ resource "cloudflare_zero_trust_access_policy" "terraform_managed_resource_811f0
   }]
 }
 
-resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_319fa8a1-2e56-418e-b514-55957d63a5da_1" {
+resource "cloudflare_zero_trust_access_application" "access_arca" {
   account_id                 = "6d8854bed30741da26ea83513b2b8b2f"
   app_launcher_visible       = true
   auto_redirect_to_identity  = false
@@ -31,7 +31,7 @@ resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_
   }]
 }
 
-resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_237bdee1-20b8-4443-8e2a-e7aa87368b54_2" {
+resource "cloudflare_zero_trust_access_application" "access_garage" {
   account_id                 = "6d8854bed30741da26ea83513b2b8b2f"
   app_launcher_visible       = true
   auto_redirect_to_identity  = false
@@ -52,7 +52,7 @@ resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_
   }]
 }
 
-resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_acd193f6-4478-4927-9169-97428b3cd4a7_3" {
+resource "cloudflare_zero_trust_access_application" "access_acervo_hub" {
   account_id                 = "6d8854bed30741da26ea83513b2b8b2f"
   app_launcher_visible       = true
   auto_redirect_to_identity  = false
@@ -68,12 +68,12 @@ resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_
     uri  = "acervo.vitormelo.dev.br"
   }]
   policies = [{
-    id         = cloudflare_zero_trust_access_policy.terraform_managed_resource_811f0681-a998-4a0a-8917-34e23de9bf7a_0.id
+    id         = cloudflare_zero_trust_access_policy.policy_login.id
     precedence = 1
   }]
 }
 
-resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_ebea28a5-5468-4953-82d4-513f460f306b_4" {
+resource "cloudflare_zero_trust_access_application" "access_ssh" {
   account_id                 = "6d8854bed30741da26ea83513b2b8b2f"
   allowed_idps               = ["de047aba-c458-499f-9158-4387e936ff57"]
   app_launcher_visible       = true
@@ -91,12 +91,12 @@ resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_
     uri  = "ssh.vitormelo.dev.br"
   }]
   policies = [{
-    id         = cloudflare_zero_trust_access_policy.terraform_managed_resource_811f0681-a998-4a0a-8917-34e23de9bf7a_0.id
+    id         = cloudflare_zero_trust_access_policy.policy_login.id
     precedence = 1
   }]
 }
 
-resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_3d286f0d-c4b5-4e1b-b432-7097b6fdb198_5" {
+resource "cloudflare_zero_trust_access_application" "access_mongo" {
   account_id                 = "6d8854bed30741da26ea83513b2b8b2f"
   allowed_idps               = ["de047aba-c458-499f-9158-4387e936ff57"]
   app_launcher_visible       = true
@@ -113,12 +113,12 @@ resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_
     uri  = "db-mongo.vitormelo.dev.br"
   }]
   policies = [{
-    id         = cloudflare_zero_trust_access_policy.terraform_managed_resource_811f0681-a998-4a0a-8917-34e23de9bf7a_0.id
+    id         = cloudflare_zero_trust_access_policy.policy_login.id
     precedence = 1
   }]
 }
 
-resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_386e5ab7-6ef7-4cc6-82ba-28bb29b839e2_6" {
+resource "cloudflare_zero_trust_access_application" "access_app_launcher" {
   account_id                   = "6d8854bed30741da26ea83513b2b8b2f"
   allowed_idps                 = ["de047aba-c458-499f-9158-4387e936ff57"]
   auto_redirect_to_identity    = true
@@ -129,19 +129,19 @@ resource "cloudflare_zero_trust_access_application" "terraform_managed_resource_
   type                         = "app_launcher"
   landing_page_design          = {}
   policies = [{
-    id         = cloudflare_zero_trust_access_policy.terraform_managed_resource_811f0681-a998-4a0a-8917-34e23de9bf7a_0.id
+    id         = cloudflare_zero_trust_access_policy.policy_login.id
     precedence = 1
   }]
 }
 
-resource "cloudflare_zero_trust_access_identity_provider" "terraform_managed_resource_cd18da18-dda4-4790-91f0-41085470bf27_0" {
+resource "cloudflare_zero_trust_access_identity_provider" "idp_pin_email" {
   name       = ""
   account_id = "6d8854bed30741da26ea83513b2b8b2f"
   type       = "onetimepin"
   config     = {}
 }
 
-resource "cloudflare_zero_trust_access_identity_provider" "terraform_managed_resource_de047aba-c458-499f-9158-4387e936ff57_1" {
+resource "cloudflare_zero_trust_access_identity_provider" "idp_github" {
   account_id = "6d8854bed30741da26ea83513b2b8b2f"
   name       = "GitHub"
   type       = "github"

@@ -1,4 +1,4 @@
-resource "cloudflare_workers_custom_domain" "terraform_managed_resource_cc0a6cca6031f096633656908150e45e24dc5395_0" {
+resource "cloudflare_workers_custom_domain" "worker_site" {
   account_id  = "6d8854bed30741da26ea83513b2b8b2f"
   environment = "production"
   hostname    = "vitormelo.dev.br"
@@ -7,7 +7,7 @@ resource "cloudflare_workers_custom_domain" "terraform_managed_resource_cc0a6cca
   zone_name   = "vitormelo.dev.br"
 }
 
-resource "cloudflare_workers_custom_domain" "terraform_managed_resource_82f7366adddb4fc93e2ef9d44b5e5e0f0d69218d_1" {
+resource "cloudflare_workers_custom_domain" "worker_detailer_os" {
   account_id  = "6d8854bed30741da26ea83513b2b8b2f"
   environment = "production"
   hostname    = "detailer-os.vitormelo.dev.br"
@@ -16,7 +16,7 @@ resource "cloudflare_workers_custom_domain" "terraform_managed_resource_82f7366a
   zone_name   = "vitormelo.dev.br"
 }
 
-resource "cloudflare_workers_custom_domain" "terraform_managed_resource_3d354ae611ac796b3783aa8a7f96635d866fd959_2" {
+resource "cloudflare_workers_custom_domain" "worker_hexpedal_site" {
   account_id  = "6d8854bed30741da26ea83513b2b8b2f"
   environment = "production"
   hostname    = "hexpedal.app"
@@ -25,7 +25,7 @@ resource "cloudflare_workers_custom_domain" "terraform_managed_resource_3d354ae6
   zone_name   = "hexpedal.app"
 }
 
-resource "cloudflare_workers_custom_domain" "terraform_managed_resource_531dbcbd5d8650cc7a1d54703d727082687d60a6_3" {
+resource "cloudflare_workers_custom_domain" "worker_clinic_page_demo" {
   account_id  = "6d8854bed30741da26ea83513b2b8b2f"
   environment = "production"
   hostname    = "clinic-page-demo.vitormelo.dev.br"
@@ -34,7 +34,7 @@ resource "cloudflare_workers_custom_domain" "terraform_managed_resource_531dbcbd
   zone_name   = "vitormelo.dev.br"
 }
 
-resource "cloudflare_workers_custom_domain" "terraform_managed_resource_ecfd69bb8fd4f72d8db207fd7997c7afa1117550_4" {
+resource "cloudflare_workers_custom_domain" "worker_hexpedal_admin" {
   account_id  = "6d8854bed30741da26ea83513b2b8b2f"
   environment = "production"
   hostname    = "admin.hexpedal.app"

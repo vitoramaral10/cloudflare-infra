@@ -91,6 +91,8 @@ mv "$PARCIAL" imports.tf
 
 # o que o gerador produz fora do schema do provider v5 (ver corrigir.py)
 scripts/corrigir.py
+# nomes legíveis no lugar de terraform_managed_resource_<id>_N (ver renomear.py)
+scripts/renomear.py
 # tipo sem recurso na conta (hoje, R2) não vira arquivo vazio
 find . -maxdepth 1 -name "*.tf" -empty -delete
 

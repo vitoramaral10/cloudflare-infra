@@ -27,7 +27,10 @@ refazer do zero (conta nova, estado perdido).
    schema do gerador: corrigir em `scripts/corrigir.py`, não à mão no `.tf`, para a exportação
    continuar reproduzível.
 4. `.bin/terraform apply`, depois apagar `imports.tf`.
-5. Renomear os recursos `terraform_managed_resource_<id>` para nomes legíveis com blocos `moved`.
+
+Os recursos saem com nome legível (`scripts/renomear.py`): `<zona>_<subdomínio>_<tipo>` no
+DNS, o nome do túnel, `access_<app>`, `worker_<serviço>`, `<zona>_email_<endereço>`. Para
+renomear um estado que já existe, `scripts/renomear.py --moved` grava os blocos `moved`.
 
 ## Regras
 

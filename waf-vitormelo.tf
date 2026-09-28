@@ -1,4 +1,4 @@
-resource "cloudflare_ruleset" "terraform_managed_resource_5f4eebb158974865800a2e42a87480a8_1" {
+resource "cloudflare_ruleset" "vitormelo_waf_custom" {
   kind    = "zone"
   name    = "default"
   phase   = "http_request_firewall_custom"
