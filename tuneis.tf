@@ -139,8 +139,8 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "homelab_docker" {
         service  = "http://nivo-backend:8080"
       },
       {
-        hostname = "portolano.vitormelo.dev.br"
-        service  = "http://portolano-traefik:8000"
+        hostname = "agentia.vitormelo.dev.br"
+        service  = "http://agentia-traefik:8000"
       },
       {
         hostname = "rentflow.vitormelo.dev.br"

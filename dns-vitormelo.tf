@@ -211,10 +211,15 @@ resource "cloudflare_dns_record" "vitormelo_jobhunt_cname" {
   }
 }
 
-resource "cloudflare_dns_record" "portolano" {
-  comment = "Portolano: Traefik da stack portolano"
+moved {
+  from = cloudflare_dns_record.portolano
+  to   = cloudflare_dns_record.agentia
+}
+
+resource "cloudflare_dns_record" "agentia" {
+  comment = "Agentia: Traefik da stack agentia"
   content = "9ed70697-1fae-4486-85a0-bd95129c7030.cfargotunnel.com"
-  name    = "portolano.vitormelo.dev.br"
+  name    = "agentia.vitormelo.dev.br"
   proxied = true
   tags    = []
   ttl     = 1
@@ -742,7 +747,7 @@ resource "cloudflare_dns_record" "vitormelo_raiz_aaaa" {
 }
 
 
-# Brevo (e-mail transacional do Portolano): autenticação do domínio e links de marca.
+# Brevo (e-mail transacional do Agentia): autenticação do domínio e links de marca.
 # Criados pela integração automática da Brevo em 2026-09-28 e adotados aqui.
 resource "cloudflare_dns_record" "vitormelo_raiz_txt_4" {
   comment  = "Brevo: verificação do domínio"
